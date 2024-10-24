@@ -5,17 +5,14 @@ import logging
 from dotenv import load_dotenv
 import os
 
-# Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
 
-# Configurações da API ManyChat
 api_token = os.getenv('API_TOKEN')
 headers = {
     'Authorization': f'Bearer {api_token}',
     'Content-Type': 'application/json'
 }
 
-# Configurações do PostgreSQL
 def get_db_connection():
     return psycopg2.connect(
         dbname=os.getenv('DB_NAME'),
@@ -25,14 +22,12 @@ def get_db_connection():
         port=os.getenv('DB_PORT')
     )
 
-# Configurações de logging
 logging.basicConfig(
     filename='manychat_leads.log',
     level=logging.INFO,
     format='%(asctime)s %(levelname)s:%(message)s'
 )
 
-# Valores de campo "Fase" para realizar as requisições
 fase_values = ['1', '2', 'rm1']
 
 def fetch_and_save_leads(fase_value):
@@ -87,7 +82,6 @@ def save_to_db(lead_data):
     except Exception as e:
         logging.error(f"Erro ao salvar lead {lead_data[0]}: {e}")
 
-# Iterar sobre os valores de campo "Fase" e buscar dados
 for value in fase_values:
     fetch_and_save_leads(value)
 
